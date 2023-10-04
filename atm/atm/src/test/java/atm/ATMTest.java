@@ -71,10 +71,4 @@ public class ATMTest {
 		assertThrows(InvalidPinFormatException.class, () -> atm.checkPin(new char[] {'1', '2', '3', '4', ':'}));
 	}
 
-	// Robust Worst Case Boundary Value Analysis for the amount decision
-	@Test
-	public void checkValidAmountTest(){
-
-
-	}
 }

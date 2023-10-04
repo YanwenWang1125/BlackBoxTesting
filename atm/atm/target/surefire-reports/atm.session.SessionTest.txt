@@ -1,0 +1,19 @@
+-------------------------------------------------------------------------------
+Test set: atm.session.SessionTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.545 sec <<< FAILURE!
+atm.session.SessionTest.testSetAmount()  Time elapsed: 0.537 sec  <<< FAILURE!
+java.lang.NullPointerException
+	at atm.session.SessionTest.testSetAmount(SessionTest.java:35)
+
+atm.session.SessionTest.testAddPin()  Time elapsed: 0.007 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown ==> expected: <atm.exceptions.InvalidPinFormatException> but was: <java.lang.NullPointerException>
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:65)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:37)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3082)
+	at atm.session.SessionTest.testAddPin(SessionTest.java:61)
+Caused by: java.lang.NullPointerException
+	at atm.session.SessionTest.lambda$testAddPin$6(SessionTest.java:61)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:55)
+	... 21 more
+
