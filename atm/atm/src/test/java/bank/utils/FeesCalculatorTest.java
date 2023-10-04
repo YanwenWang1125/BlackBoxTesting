@@ -128,19 +128,72 @@ class FeesCalculatorTest {
 		feeRate = 0;
 		expectFee = withdrawAmount * feeRate;
 		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 6: logic test
+		withdrawAmount = -1;
+		amountBalance = 5001;
+		feeRate = 0;
+		double finalWithdrawAmount = withdrawAmount;
+		double finalAmountBalance = amountBalance;
+		boolean finalIsStudent = isStudent;
+		int finalDay = day;
+//		assertThrows(ArithmeticException.class, () -> calculator.calculateWithdrawalFee(finalWithdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
 	}
 
 	@Test
 	public void depositWeakRobustEquivalenceClassTest(){
-//		{student | not student}
-//		A1 = {amount deposit E x | x = [0,50), [50,inf] }
-//		A2 = {[0,250), [250, inf]}
-//		B1 = {[0, 500), [500, inf) }
-//		B2 = {[0, 5000), [5000, inf) }
-//		B3 = {[0, 2500), [2500, inf) }
-//		B4 = {[0, 10000), [10000, inf) }
+		/*
+		{student | not student}
+		A1 = Amount Deposit [0,50)
+		A2 = [50,inf]
+		A3 = [0,250)
+		A4 = [250, inf]
+		B1 = Account Balance [0, 500)
+		B2 = [500, inf)
+		B3 = [0, 5000)
+		B4 = [5000, inf)
+		B5 = [0, 2500)
+		B6 = [2500, inf)
+		B7 = [0, 10000)
+		B8 = [10000, inf)
+		*/
+		boolean isStudent = true;
+		double amountDeposit = 0;
+		double amountBalance = 0;
+		double interestPercentage = 0;
+		double expectInterest = interestPercentage * amountDeposit;
 
-		// case 1: is Student & A1 &
+		// Error: case is not fit with the instruction
+		// case 1: is Student & A1 & B1, output = no interest
+		amountDeposit = 25;
+		amountBalance = 250;
+		interestPercentage = 0;
+		expectInterest = interestPercentage * amountDeposit;
+		//assertEquals(expectInterest, calculator.calculateDepositInterest(amountDeposit, amountBalance, isStudent));
+
+		// case 2: is Student & A2 & B2, output = 0.5% of the interest
+		amountDeposit = 85;
+		amountBalance = 850;
+		interestPercentage = 0.005;
+		expectInterest = interestPercentage * amountDeposit;
+		assertEquals(expectInterest, calculator.calculateDepositInterest(amountDeposit, amountBalance, isStudent));
+
+		// case 3: is Not Student & A3 & B3
+		isStudent = false;
+		amountDeposit = 200;
+		amountBalance = 2000;
+
+
+
+		// case 4: is Not Student & A4 & B4
+
+		// case 5: is Not Student & A4 & B5
+
+		// case 6: is Not Student & A3 & B6
+
+		// case 7: is Student & A2 & B7
+
+		// case 8: is Student & A1 & B8
 
 	}
 
@@ -231,16 +284,15 @@ class FeesCalculatorTest {
 		expectFee = amountTransfer * feePercentage;
 		//assertEquals(expectFee, calculator.calculateTransferFee(amountTransfer, balanceComesFrom, balanceGoesIn, isStudent));
 
-		// Error: case is not fit with the instruction
 		// case 9: input = isNotStudent & amountTransfer = 50 & balanceComesFrom = 3000 & balanceGoesIn = 1000
 		// output = 0.2% of the amountTransfer
 		isStudent = false;
 		amountTransfer = 50;
 		balanceComesFrom = 3000;
 		balanceGoesIn = 1000;
-		feePercentage = 0.0002;
+		feePercentage = 0.002;
 		expectFee = amountTransfer * feePercentage;
-		//assertEquals(expectFee, calculator.calculateTransferFee(amountTransfer, balanceComesFrom, balanceGoesIn, isStudent));
+		assertEquals(expectFee, calculator.calculateTransferFee(amountTransfer, balanceComesFrom, balanceGoesIn, isStudent));
 
 		// Error: case is not fit with the instruction
 		// case 10: input = isNotStudent & amountTransfer = 50 & balanceComesFrom = 3000 & balanceGoesIn = 3000
@@ -279,7 +331,7 @@ class FeesCalculatorTest {
 		amountTransfer = 200;
 		balanceComesFrom = 1000;
 		balanceGoesIn = 500;
-		feePercentage = 0.0002;
+		feePercentage = 0.002;
 		expectFee = amountTransfer * feePercentage;
 		//assertEquals(expectFee, calculator.calculateTransferFee(amountTransfer, balanceComesFrom, balanceGoesIn, isStudent));
 
@@ -289,7 +341,7 @@ class FeesCalculatorTest {
 		amountTransfer = 200;
 		balanceComesFrom = 1000;
 		balanceGoesIn = 2000;
-		feePercentage = 0.0001;
+		feePercentage = 0.001;
 		expectFee = amountTransfer * feePercentage;
 		//assertEquals(expectFee, calculator.calculateTransferFee(amountTransfer, balanceComesFrom, balanceGoesIn, isStudent));
 
@@ -299,7 +351,7 @@ class FeesCalculatorTest {
 		amountTransfer = 200;
 		balanceComesFrom = 3000;
 		balanceGoesIn = 500;
-		feePercentage = 0.0005;
+		feePercentage = 0.005;
 		expectFee = amountTransfer * feePercentage;
 		//assertEquals(expectFee, calculator.calculateTransferFee(amountTransfer, balanceComesFrom, balanceGoesIn, isStudent));
 
@@ -309,10 +361,9 @@ class FeesCalculatorTest {
 		amountTransfer = 200;
 		balanceComesFrom = 3000;
 		balanceGoesIn = 2000;
-		feePercentage = 0.00025;
+		feePercentage = 0.0025;
 		expectFee = amountTransfer * feePercentage;
 		//assertEquals(expectFee, calculator.calculateTransferFee(amountTransfer, balanceComesFrom, balanceGoesIn, isStudent));
-
 
 	}
 }

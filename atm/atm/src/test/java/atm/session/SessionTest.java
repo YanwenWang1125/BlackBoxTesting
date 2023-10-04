@@ -64,9 +64,6 @@ public class SessionTest {
         atm.setMainPanel(mainPanel);
         atm.createSession();
 
-
-
-
     }
 
     private void mockTransactionData() {
@@ -164,14 +161,29 @@ public class SessionTest {
         assertThrows(InvalidAmountException.class, ()-> session.setAmount(-1));
 
         // case 8: the amount is 0 ?
-      //   assertThrows(InvalidAmountException.class, ()-> session.setAmount(0));
+        // assertDoesNotThrows
+        //assertThrows(InvalidAmountException.class, ()-> session.setAmount(0));
 
-        // case 9: the amount is 1001
+        // case 9: the amount is 0
         assertDoesNotThrow(()-> session.setAmount(0));
-
 
     }
 
+    @Test
+    public void checkvalidAmountTest(){
+        ATMWithdrawal atmWithdrawal = mock(ATMWithdrawal.class);
+        session.setTransaction(atmWithdrawal);
+        when(atmWithdrawal.getTransactionType()).thenReturn(TransactionType.Withdrawal);
+        // case 1: the amount is valid as 20
+        assertDoesNotThrow(() -> session.setAmount(20));
+
+        // case 1: the amount is valid as 50
+        assertDoesNotThrow(() -> session.setAmount(50));
+
+        // case 1: the amount is valid as 100
+        assertDoesNotThrow(() -> session.setAmount(100));
+
+    }
 
 
 

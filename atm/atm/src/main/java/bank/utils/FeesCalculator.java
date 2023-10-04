@@ -25,6 +25,7 @@ public class FeesCalculator {
 		}
 		
 		// Calculate fee
+		// fee = -1 * 1%
 		double fee = amount * feePercentage;
 		
 		return fee;
