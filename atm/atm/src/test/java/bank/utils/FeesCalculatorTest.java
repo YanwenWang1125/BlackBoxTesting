@@ -243,8 +243,17 @@ class FeesCalculatorTest {
 		//assertEquals(expectInterest, calculator.calculateDepositInterest(amountDeposit, amountBalance, isStudent));
 
 
+		// Error: It should throw any error exception, but nothing was thrown
 		// case 6: is Not Student & A4 & B6, output = an error should thrown
-
+		isStudent = false;
+		amountDeposit = -1;
+		amountBalance = -1;
+		interestPercentage = 0.0;
+		expectInterest = interestPercentage * amountDeposit;
+		double finalAmountDeposit = amountDeposit;
+		double finalAmountBalance = amountBalance;
+		boolean finalIsStudent = isStudent;
+		//assertThrows(Exception.class, () -> calculator.calculateDepositInterest(finalAmountDeposit, finalAmountBalance, finalIsStudent));
 
 	}
 
