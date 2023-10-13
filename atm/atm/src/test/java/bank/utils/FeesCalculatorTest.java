@@ -137,7 +137,7 @@ class FeesCalculatorTest {
 		double finalAmountBalance = amountBalance;
 		boolean finalIsStudent = isStudent;
 		int finalDay = day;
-//		assertThrows(ArithmeticException.class, () -> calculator.calculateWithdrawalFee(finalWithdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+		//assertThrows(ArithmeticException.class, () -> calculator.calculateWithdrawalFee(finalWithdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
 	}
 
 	@Test
@@ -146,15 +146,16 @@ class FeesCalculatorTest {
 		Deposit:
 		1. {student | not student}
 
-		2. A1 = {amount deposited(AD) | 0 <= AD <= 50 }
+		2.  A1 = {amount deposited(AD) | 0 <= AD <= 50 }
 			A2 = {amount deposited(AD) | 50 < AD <= 250 }
 			A3 = {amount deposited(AD) | 250 < AD <= INF }
 
-		3. B1 = {balance (B) | 0 <= B <= 500}
+		3.  B1 = {balance (B) | 0 <= B <= 500}
 			B2 = {balance (B) | 500 < B <= 2500}
 			B3 = {balance (B) | 2500 < B <= 5000}
 			B4 = {balance (B) | 5000 < B <= 10000}
 			B5 = {balance (B) | 10000 < B <= inf}
+			B6 = {balance (B) | B < 0 (invalid)}
 		*/
 		boolean isStudent = true;
 		double amountDeposit = 0;
@@ -170,7 +171,7 @@ class FeesCalculatorTest {
 		expectInterest = interestPercentage * amountDeposit;
 		//assertEquals(expectInterest, calculator.calculateDepositInterest(amountDeposit, amountBalance, isStudent));
 
-		// case 2: is Student & A2 & B2, output = 0.5% of the interest
+		// case 2: is Student A2 & B2   , output = 0.5% of the interest
 		amountDeposit = 85;
 		amountBalance = 850;
 		interestPercentage = 0.005;
@@ -186,11 +187,11 @@ class FeesCalculatorTest {
 		assertEquals(expectInterest, calculator.calculateDepositInterest(amountDeposit, amountBalance, isStudent));
 
 
-		// case 4: isStudent & A3 & B4, output = 0.5% of the interest
-		isStudent = true;
-		amountDeposit = 300;
-		amountDeposit = 9000;
-		interestPercentage = 0.005;
+		// case 4: is Not Student & A2 & B4, output = 0.1% of the interest
+		isStudent = false;
+		amountDeposit = 100;
+		amountBalance = 9000;
+		interestPercentage = 0.001;
 		expectInterest = interestPercentage * amountDeposit;
 		assertEquals(expectInterest, calculator.calculateDepositInterest(amountDeposit, amountBalance, isStudent));
 
@@ -205,6 +206,8 @@ class FeesCalculatorTest {
 		expectInterest = interestPercentage * amountDeposit;
 		//assertEquals(expectInterest, calculator.calculateDepositInterest(amountDeposit, amountBalance, isStudent));
 
+
+		// case 6: is Not Student & A4 & B6, output = an error should thrown
 
 
 	}
@@ -375,7 +378,7 @@ class FeesCalculatorTest {
 		balanceGoesIn = 2000;
 		feePercentage = 0.0025;
 		expectFee = amountTransfer * feePercentage;
-		//assertEquals(expectFee, calculator.calculateTransferFee(amountTransfer, balanceComesFrom, balanceGoesIn, isStudent));
+//		assertEquals(expectFee, calculator.calculateTransferFee(amountTransfer, balanceComesFrom, balanceGoesIn, isStudent));
 
 	}
 }

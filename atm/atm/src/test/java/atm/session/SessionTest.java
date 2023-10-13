@@ -193,11 +193,5 @@ public class SessionTest {
         assertDoesNotThrow(() -> session.setAmount(100));
 
     }
-
-
-
-
-
-
 }
 
