@@ -143,19 +143,18 @@ class FeesCalculatorTest {
 	@Test
 	public void depositWeakRobustEquivalenceClassTest(){
 		/*
-		{student | not student}
-		A1 = Amount Deposit [0,50)
-		A2 = [50,inf]
-		A3 = [0,250)
-		A4 = [250, inf]
-		B1 = Account Balance [0, 500)
-		B2 = [500, inf)
-		B3 = [0, 5000)
-		B4 = [5000, inf)
-		B5 = [0, 2500)
-		B6 = [2500, inf)
-		B7 = [0, 10000)
-		B8 = [10000, inf)
+		Deposit:
+		1. {student | not student}
+
+		2. A1 = {amount deposited(AD) | 0 <= AD <= 50 }
+			A2 = {amount deposited(AD) | 50 < AD <= 250 }
+			A3 = {amount deposited(AD) | 250 < AD <= INF }
+
+		3. B1 = {balance (B) | 0 <= B <= 500}
+			B2 = {balance (B) | 500 < B <= 2500}
+			B3 = {balance (B) | 2500 < B <= 5000}
+			B4 = {balance (B) | 5000 < B <= 10000}
+			B5 = {balance (B) | 10000 < B <= inf}
 		*/
 		boolean isStudent = true;
 		double amountDeposit = 0;
@@ -178,22 +177,35 @@ class FeesCalculatorTest {
 		expectInterest = interestPercentage * amountDeposit;
 		assertEquals(expectInterest, calculator.calculateDepositInterest(amountDeposit, amountBalance, isStudent));
 
-		// case 3: is Not Student & A3 & B3
+		// case 3: is Not Student & A3 & B3, output = 0.8% of the interest
+		isStudent = false;
+		amountDeposit = 300;
+		amountBalance = 3000;
+		interestPercentage = 0.008;
+		expectInterest = interestPercentage * amountDeposit;
+		assertEquals(expectInterest, calculator.calculateDepositInterest(amountDeposit, amountBalance, isStudent));
+
+
+		// case 4: isStudent & A3 & B4, output = 0.5% of the interest
+		isStudent = true;
+		amountDeposit = 300;
+		amountDeposit = 9000;
+		interestPercentage = 0.005;
+		expectInterest = interestPercentage * amountDeposit;
+		assertEquals(expectInterest, calculator.calculateDepositInterest(amountDeposit, amountBalance, isStudent));
+
+
+
+		// Error: case is not fit with the instruction
+		// case 5: is Not Student & A2 & B5, output = no interest
 		isStudent = false;
 		amountDeposit = 200;
-		amountBalance = 2000;
+		amountBalance = 20000;
+		interestPercentage = 0.0;
+		expectInterest = interestPercentage * amountDeposit;
+		//assertEquals(expectInterest, calculator.calculateDepositInterest(amountDeposit, amountBalance, isStudent));
 
 
-
-		// case 4: is Not Student & A4 & B4
-
-		// case 5: is Not Student & A4 & B5
-
-		// case 6: is Not Student & A3 & B6
-
-		// case 7: is Student & A2 & B7
-
-		// case 8: is Student & A1 & B8
 
 	}
 

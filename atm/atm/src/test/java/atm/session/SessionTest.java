@@ -80,10 +80,16 @@ public class SessionTest {
     }
 
     @Test
+    // special case with character of 9
     public void checkCorrectPINTest() {
-        char[] expectedPin = new char[]{'1', '2', '3', '4', '5'};
+        char[] expectedPin = new char[]{'0', '1', '2', '3', '4'};
         when(dispatcher.checkCredentials(null, expectedPin)).thenReturn(true);
-        Assertions.assertDoesNotThrow(() -> atm.checkPin(expectedPin));
+        char[] finalExpectedPin1 = expectedPin;
+        Assertions.assertDoesNotThrow(() -> atm.checkPin(finalExpectedPin1));
+
+        expectedPin = new char[]{'5', '6', '7', '8', '9'};
+        char[] finalExpectedPin2 = expectedPin;
+        Assertions.assertDoesNotThrow(() -> atm.checkPin(finalExpectedPin2));
     }
 
 
@@ -166,6 +172,9 @@ public class SessionTest {
 
         // case 9: the amount is 0
         assertDoesNotThrow(()-> session.setAmount(0));
+
+        // case 10: the amount is 0
+        assertDoesNotThrow(()-> session.setAmount(-20));
 
     }
 
