@@ -27,6 +27,29 @@ class FeesCalculatorTest {
 	}
 
 	@Test
+	// case that have withdraw amount = -1
+	// Adrian
+	public void withdrawalRobustWorstCaseBoundaryValueInvalidTest(){
+		// case 1: input = isStudent & weekday(Friday); output = no fee
+		// invalid test case, because the invalid amount of the withdrawAmount is -1, we should not passed the test, but it not raised any errores.
+		double withdrawAmount = -1;
+		double amountBalance = 5000;
+		boolean isStudent = true;
+		int day = Calendar.FRIDAY;
+		double feeRate = 0;
+		double expectFee = withdrawAmount * feeRate;
+//		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		//
+		// case 1.b: input = isStudent & weekend(Monday); output = is not 0.1% of the withdrawAmount
+		double notExpectFeeRate = 0.001;
+		day = Calendar.MONDAY;
+		double notExpectFee = withdrawAmount * notExpectFeeRate;
+		assertNotEquals(notExpectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+	}
+
+	@Test
 	public void withdrawalRobustWorstCaseBoundaryValueTest(){
 		// case 1: input = isStudent & weekday(Friday); output = no fee
 		double withdrawAmount = 200;
