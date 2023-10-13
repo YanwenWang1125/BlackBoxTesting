@@ -157,11 +157,11 @@ public class SessionTest {
         // case 4: the amount is 51
         assertThrows(InvalidAmountException.class, ()-> session.setAmount(51));
 
-        // case 5: the amount is 999
-        assertThrows(InvalidAmountException.class, ()-> session.setAmount(999));
+        // case 5: the amount is 980,  testing for the daily amount
+        assertThrows(InvalidAmountException.class, ()-> session.setAmount(980));
 
-        // case 6: the amount is 1001
-        assertThrows(InvalidAmountException.class, ()-> session.setAmount(1001));
+        // case 6: the amount is 1020, testing for the daily amount
+        assertThrows(InvalidAmountException.class, ()-> session.setAmount(1020));
 
         // case 7: the amount is -1
         assertThrows(InvalidAmountException.class, ()-> session.setAmount(-1));

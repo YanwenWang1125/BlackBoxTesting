@@ -50,6 +50,19 @@ class FeesCalculatorTest {
 	}
 
 	@Test
+	//Yushi, withdrawAmount = 0
+	public void withdrawalRobustWorstCaseBoundaryValueInvalidZeroTest(){
+		// case 1: input = isStudent & weekday(Friday); output = no fee
+		// no logic error thrown, which is good
+		double withdrawAmount = 0;
+		double amountBalance = 5000;
+		boolean isStudent = true;
+		int day = Calendar.FRIDAY;
+		double feeRate = 0;
+		double expectFee = withdrawAmount * feeRate;
+		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+	}
+	@Test
 	public void withdrawalRobustWorstCaseBoundaryValueTest(){
 		// case 1: input = isStudent & weekday(Friday); output = no fee
 		double withdrawAmount = 200;
