@@ -61,7 +61,94 @@ class FeesCalculatorTest {
 		double feeRate = 0;
 		double expectFee = withdrawAmount * feeRate;
 		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+		
+		//case 2: input = Student & weekend & amountBalance=5000; output =
+		double withdrawAmount = 0;
+		double amountBalance = 5000;
+		boolean isStudent = true;
+		int day = Calendar.SATURDAY;
+		double feeRate = 0.001;
+		double expectFee = withdrawAmount * feeRate;
+		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+		
+		//case3: input = non-Student & weekday(Friday) & amountBalance = 4999; output = 
+		double withdrawAmount = 0;
+		double amountBalance = 4999;
+		boolean isStudent = false;
+		int day = Calendar.FRIDAY;
+		double feeRate = 0.001;
+		double expectFee = withdrawAmount * feeRate;
+		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+		
+		//case4: input = non-Student & weekday(Friday) & amountBalance = 5001; output = 
+		double withdrawAmount = 0;
+		double amountBalance = 5001;
+		boolean isStudent = false;
+		int day = Calendar.FRIDAY;
+		double feeRate = 0;
+		double expectFee = withdrawAmount * feeRate;
+		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+		
+		//case5: input = non-Student & weekday(Friday) & amountBalance = 999; output = 
+		double withdrawAmount = 0;
+	    double amountBalance = 999;
+		boolean isStudent = false;
+		int day = Calendar.FRIDAY;
+	    double feeRate = 0.003;
+	    double expectFee = withdrawAmount * feeRate;
+	    assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+	    
+	    //case6: input = non-Student & weekday(Friday) & amountBalance = 1001; output = 
+	  	double withdrawAmount = 0;
+	  	double amountBalance = 1001;
+	  	boolean isStudent = false;
+	  	int day = Calendar.FRIDAY;
+	  	double feeRate = 0.001;
+	  	double expectFee = withdrawAmount * feeRate;
+	  	assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+	  	
+	    //case7: input = non-Student & weekday(Friday) & amountBalance = 1000; output = 
+	  	double withdrawAmount = 0;
+	  	double amountBalance = 1000;
+	  	boolean isStudent = false;
+	  	int day = Calendar.FRIDAY;
+	  	double feeRate = 0.001;
+	  	double expectFee = withdrawAmount * feeRate;
+	  	assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+	  	
+	    //case8: input = non-Student & weekday(Friday) & amountBalance = 0; output = 
+	  	double withdrawAmount = 0;
+	  	double amountBalance = 0;
+	  	boolean isStudent = false;
+	  	int day = Calendar.FRIDAY;
+	  	double feeRate = 0.003;
+	  	double expectFee = withdrawAmount * feeRate;
+	  	assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+	  	
+	    //case9: input = non-Student & weekday(Friday) & amountBalance = 1; output = 
+	  	double withdrawAmount = 0;
+	  	double amountBalance = 1;
+	  	boolean isStudent = false;
+	  	int day = Calendar.FRIDAY;
+	  	double feeRate = 0.003;
+	  	double expectFee = withdrawAmount * feeRate;
+	  	assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+	  	
+	    //case10: input = non-Student & weekday(Friday) & amountBalance = -1; output = 
+	  	double withdrawAmount = 0;
+	  	double amountBalance = -1;
+	  	boolean isStudent = false;
+	  	int day = Calendar.FRIDAY;
+	  	double feeRate = 0.003;
+	  	double expectFee = withdrawAmount * feeRate;
+	  	assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+	  	
+	  	
+	  	
+		
+		
 	}
+	
 	@Test
 	public void withdrawalRobustWorstCaseBoundaryValueTest(){
 		// case 1: input = isStudent & weekday(Friday); output = no fee
