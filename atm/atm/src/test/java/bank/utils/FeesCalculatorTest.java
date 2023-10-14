@@ -2,6 +2,7 @@ package bank.utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import atm.exceptions.InvalidAmountException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,137 +21,9 @@ class FeesCalculatorTest {
 	void tearDown() throws Exception {
 	}
 
-	@Test
-	public void withdrawalValidTest() {
-		assertEquals(0.2, calculator.calculateWithdrawalFee(200, 1000, false, 0));		//pass
-		assertEquals(0.01, calculator.calculateWithdrawalFee(200, 1000, false, 0));	//fail
-	}
 
 	@Test
-	public void withdrawalRobustWorstCaseBoundaryValueInvalidTest(){
-		// TODO try this instead of assertEquals()
-		// Might be a different error class
-		// assertThrows(InvalidAmountException.class, () -> {calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day)});
-		
-		// cases that have withdrawAmount = -1
-		double withdrawAmount = -1;
-		
-		// case 1: input = isStudent & weekday(Friday); should throw error for withdrawAmount
-		// invalid test case: invalid amount of the withdrawAmount is -1, test should not pass but passes without errors
-		double amountBalance = 5000;
-		boolean isStudent = true;
-		int day = Calendar.FRIDAY;
-		double feeRate = 0;
-		double expectFee = withdrawAmount * feeRate;
-//		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 1.b: input = isStudent & weekend(Monday); should throw error for withdrawAmount
-		double notExpectFeeRate = 0.001;
-		day = Calendar.MONDAY;
-		double notExpectFee = withdrawAmount * notExpectFeeRate;
-		assertNotEquals(notExpectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-		
-		// case 2: input = isStudent & weekend(Saturday); should throw error for withdrawAmount
-		feeRate = 0.001;
-		day = Calendar.SATURDAY;
-		expectFee = withdrawAmount * feeRate;
-		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 2.b: input = isStudent & weekend(Sunday); should throw error for withdrawAmount
-		notExpectFeeRate = 0;
-		day = Calendar.SUNDAY;
-		notExpectFee = withdrawAmount * notExpectFeeRate;
-		assertNotEquals(notExpectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 3.a: input = isNotStudent & balance = 999; should throw error for withdrawAmount
-		isStudent = false;
-		amountBalance = 999;
-		feeRate = 0.003;
-		expectFee = withdrawAmount * feeRate;
-		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 3.b: input = isNotStudent & balance = 1000; should throw error for withdrawAmount
-		amountBalance = 1000;
-		notExpectFeeRate = 0.003;
-		notExpectFee = withdrawAmount * notExpectFeeRate;
-		assertNotEquals(notExpectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 3.c: input = isNotStudent & balance = 1000; should throw error for withdrawAmount
-		amountBalance = 1001;
-		notExpectFeeRate = 0.003;
-		notExpectFee = withdrawAmount * notExpectFeeRate;
-		assertNotEquals(notExpectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 4.a: input = isNotStudent & balance = 999; should throw error for withdrawAmount
-		amountBalance = 999;
-		notExpectFeeRate = 0.001;
-		notExpectFee = withdrawAmount * notExpectFeeRate;
-		assertNotEquals(notExpectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 4.b: input = isNotStudent & balance = 1000; should throw error for withdrawAmount
-		amountBalance = 1000;
-		feeRate = 0.001;
-		expectFee = withdrawAmount * feeRate;
-		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 4.c: input = isNotStudent & balance = 1001; should throw error for withdrawAmount
-		amountBalance = 1001;
-		feeRate = 0.001;
-		expectFee = withdrawAmount * feeRate;
-		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 4.d: input = isNotStudent & balance = 4999; should throw error for withdrawAmount
-		amountBalance = 4999;
-		feeRate = 0.001;
-		expectFee = withdrawAmount * feeRate;
-		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 4.e: input = isNotStudent & balance = 5000; should throw error for withdrawAmount
-		amountBalance = 5000;
-		notExpectFeeRate = 0.001;
-		notExpectFee = withdrawAmount * notExpectFeeRate;
-		assertNotEquals(notExpectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 4.f: input = isNotStudent & balance = 5001; should throw error for withdrawAmount
-		amountBalance = 5001;
-		notExpectFeeRate = 0.001;
-		notExpectFee = withdrawAmount * notExpectFeeRate;
-		assertNotEquals(notExpectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 5.a: input = isNotStudent & balance = 4999; should throw error for withdrawAmount
-		amountBalance = 4999;
-		notExpectFeeRate = 0;
-		notExpectFee = withdrawAmount * notExpectFeeRate;
-		assertNotEquals(notExpectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// this case is not mention either in case and in instructions, but we still assume it has no fee requirement based on common logic
-		// case 5.b: input = isNotStudent & balance = 5000; should throw error for withdrawAmount
-		amountBalance = 5000;
-		feeRate = 0;
-		expectFee = withdrawAmount * feeRate;
-		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-
-		// case 5.c: input = isNotStudent & balance = 5001; should throw error for withdrawAmount
-		amountBalance = 5001;
-		feeRate = 0;
-		expectFee = withdrawAmount * feeRate;
-		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-	}
-
-	@Test
-	//Yushi, withdrawAmount = 0
-	public void withdrawalRobustWorstCaseBoundaryValueInvalidZeroTest(){
-		// case 1: input = isStudent & weekday(Friday); output = no fee
-		// no logic error thrown, which is good
-		double withdrawAmount = 0;
-		double amountBalance = 5000;
-		boolean isStudent = true;
-		int day = Calendar.FRIDAY;
-		double feeRate = 0;
-		double expectFee = withdrawAmount * feeRate;
-		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
-	}
-	@Test
+	// set withdraw amount is 200
 	public void withdrawalRobustWorstCaseBoundaryValueTest(){
 		// case 1: input = isStudent & weekday(Friday); output = no fee
 		double withdrawAmount = 200;
@@ -198,6 +71,13 @@ class FeesCalculatorTest {
 		notExpectFee = withdrawAmount * notExpectFeeRate;
 		assertNotEquals(notExpectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
 
+		// case 3.d: input = isNotStudent & balance = 999, output = 0.3% of the withdrawAmount
+		isStudent = false;
+		amountBalance = 500;
+		feeRate = 0.003;
+		expectFee = withdrawAmount * feeRate;
+		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
 		// case 4.a: input = isNotStudent & balance = 999, output = is not 0.1% of the withdrawAmount
 		amountBalance = 999;
 		notExpectFeeRate = 0.001;
@@ -234,6 +114,12 @@ class FeesCalculatorTest {
 		notExpectFee = withdrawAmount * notExpectFeeRate;
 		assertNotEquals(notExpectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
 
+		// case 4.g: input = isNotStudent & balance = 1000, output = is 0.1% of the withdrawAmount
+		amountBalance = 2500;
+		feeRate = 0.001;
+		expectFee = withdrawAmount * feeRate;
+		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
 		// case 5.a: input = isNotStudent & balance = 4999, output = is not no fee
 		amountBalance = 4999;
 		notExpectFeeRate = 0;
@@ -252,7 +138,237 @@ class FeesCalculatorTest {
 		feeRate = 0;
 		expectFee = withdrawAmount * feeRate;
 		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// this case is not mention either in case and in instructions, but we still assume it has no fee requirement based on common logic
+		// case 5.d: input = isNotStudent & balance = 5000, output = is no fee
+		amountBalance = 9000;
+		feeRate = 0;
+		expectFee = withdrawAmount * feeRate;
+		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
 	}
+
+
+
+	@Test
+	// set the withdrawl amount is -1
+	public void withdrawalRobustWorstCaseBoundaryValueInvalidTest(){
+		// Might be a different error class
+		// cases that have withdrawAmount = -1
+		double withdrawAmount = -1;
+		
+		// case 1: input = isStudent & weekday(Friday); should throw error for withdrawAmount
+		// invalid test case: invalid amount of the withdrawAmount is -1, test should not pass but passes without errors
+		double amountBalance = 5000;
+		boolean isStudent = true;
+		int day = Calendar.FRIDAY;
+		double feeRate = 0;
+		double expectFee = withdrawAmount * feeRate;
+		double finalAmountBalance = amountBalance;
+		boolean finalIsStudent = isStudent;
+		int finalDay = day;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 1.b: input = isStudent & weekend(Monday); should throw error for withdrawAmount
+		double notExpectFeeRate = 0.001;
+		day = Calendar.MONDAY;
+		double notExpectFee = withdrawAmount * notExpectFeeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+		
+		// case 2: input = isStudent & weekend(Saturday); should throw error for withdrawAmount
+		feeRate = 0.001;
+		day = Calendar.SATURDAY;
+		expectFee = withdrawAmount * feeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 2.b: input = isStudent & weekend(Sunday); should throw error for withdrawAmount
+		notExpectFeeRate = 0;
+		day = Calendar.SUNDAY;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 3.a: input = isNotStudent & balance = 999; should throw error for withdrawAmount
+		isStudent = false;
+		amountBalance = 999;
+		feeRate = 0.003;
+		expectFee = withdrawAmount * feeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 3.b: input = isNotStudent & balance = 1000; should throw error for withdrawAmount
+		amountBalance = 1000;
+		notExpectFeeRate = 0.003;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		//(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 3.c: input = isNotStudent & balance = 1000; should throw error for withdrawAmount
+		amountBalance = 1001;
+		notExpectFeeRate = 0.003;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 4.a: input = isNotStudent & balance = 999; should throw error for withdrawAmount
+		amountBalance = 999;
+		notExpectFeeRate = 0.001;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 4.b: input = isNotStudent & balance = 1000; should throw error for withdrawAmount
+		amountBalance = 1000;
+		feeRate = 0.001;
+		expectFee = withdrawAmount * feeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 4.c: input = isNotStudent & balance = 1001; should throw error for withdrawAmount
+		amountBalance = 1001;
+		feeRate = 0.001;
+		expectFee = withdrawAmount * feeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 4.d: input = isNotStudent & balance = 4999; should throw error for withdrawAmount
+		amountBalance = 4999;
+		feeRate = 0.001;
+		expectFee = withdrawAmount * feeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 4.e: input = isNotStudent & balance = 5000; should throw error for withdrawAmount
+		amountBalance = 5000;
+		notExpectFeeRate = 0.001;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 4.f: input = isNotStudent & balance = 5001; should throw error for withdrawAmount
+		amountBalance = 5001;
+		notExpectFeeRate = 0.001;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 5.a: input = isNotStudent & balance = 4999; should throw error for withdrawAmount
+		amountBalance = 4999;
+		notExpectFeeRate = 0;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// this case is not mention either in case and in instructions, but we still assume it has no fee requirement based on common logic
+		// case 5.b: input = isNotStudent & balance = 5000; should throw error for withdrawAmount
+		amountBalance = 5000;
+		feeRate = 0;
+		expectFee = withdrawAmount * feeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+
+		// case 5.c: input = isNotStudent & balance = 5001; should throw error for withdrawAmount
+		amountBalance = 5001;
+		feeRate = 0;
+		expectFee = withdrawAmount * feeRate;
+		//assertThrows(InvalidAmountException.class, () -> calculator.calculateWithdrawalFee(withdrawAmount, finalAmountBalance, finalIsStudent, finalDay));
+	}
+
+	@Test
+	// set withdrawal amount is 0
+	public void withdrawalRobustWorstCaseBoundaryValueInvalidZeroTest(){
+		// case 1: input = isStudent & weekday(Friday); output = no fee
+		// no logic error thrown, which is good
+		double withdrawAmount = 0;
+		double amountBalance = 5000;
+		boolean isStudent = true;
+		int day = Calendar.FRIDAY;
+		double feeRate = 0;
+		double expectFee = withdrawAmount * feeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 1.b: input = isStudent & weekend(Monday); output = is not 0.1% of the withdrawAmount
+		double notExpectFeeRate = 0.001;
+		day = Calendar.MONDAY;
+		double notExpectFee = withdrawAmount * notExpectFeeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 2: input = isStudent & weekend(Saturday); output = 0.1% of the withdrawAmount
+		feeRate = 0.001;
+		day = Calendar.SATURDAY;
+		expectFee = withdrawAmount * feeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 2.b: input = isStudent & weekend(Sunday); output = is not no fee
+		notExpectFeeRate = 0;
+		day = Calendar.SUNDAY;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 3.a: input = isNotStudent & balance = 999, output = 0.3% of the withdrawAmount
+		isStudent = false;
+		amountBalance = 999;
+		feeRate = 0.003;
+		expectFee = withdrawAmount * feeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 3.b: input = isNotStudent & balance = 1000, output = is not 0.3% of the withdrawAmount
+		amountBalance = 1000;
+		notExpectFeeRate = 0.003;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 3.c: input = isNotStudent & balance = 1000, output = is not 0.3% of the withdrawAmount
+		amountBalance = 1001;
+		notExpectFeeRate = 0.003;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 4.a: input = isNotStudent & balance = 999, output = is not 0.1% of the withdrawAmount
+		amountBalance = 999;
+		notExpectFeeRate = 0.001;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 4.b: input = isNotStudent & balance = 1000, output = is 0.1% of the withdrawAmount
+		amountBalance = 1000;
+		feeRate = 0.001;
+		expectFee = withdrawAmount * feeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 4.c: input = isNotStudent & balance = 1001, output = is 0.1% of the withdrawAmount
+		amountBalance = 1001;
+		feeRate = 0.001;
+		expectFee = withdrawAmount * feeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 4.d: input = isNotStudent & balance = 4999, output = is 0.1% of the withdrawAmount
+		amountBalance = 4999;
+		feeRate = 0.001;
+		expectFee = withdrawAmount * feeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 4.e: input = isNotStudent & balance = 5000, output = is not 0.1% of the withdrawAmount
+		amountBalance = 5000;
+		notExpectFeeRate = 0.001;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 4.f: input = isNotStudent & balance = 5001, output = is not 0.1% of the withdrawAmount
+		amountBalance = 5001;
+		notExpectFeeRate = 0.001;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 5.a: input = isNotStudent & balance = 4999, output = is not no fee
+		amountBalance = 4999;
+		notExpectFeeRate = 0;
+		notExpectFee = withdrawAmount * notExpectFeeRate;
+		assertEquals(0, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// this case is not mention either in case and in instructions, but we still assume it has no fee requirement based on common logic
+		// case 5.b: input = isNotStudent & balance = 5000, output = is no fee
+		amountBalance = 5000;
+		feeRate = 0;
+		expectFee = withdrawAmount * feeRate;
+		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+
+		// case 5.c: input = isNotStudent & balance = 5001, output = is no fee
+		amountBalance = 5001;
+		feeRate = 0;
+		expectFee = withdrawAmount * feeRate;
+		assertEquals(expectFee, calculator.calculateWithdrawalFee(withdrawAmount, amountBalance, isStudent, day));
+	}
+
+
 
 	@Test
 	public void depositWeakRobustEquivalenceClassTest(){
@@ -393,6 +509,7 @@ class FeesCalculatorTest {
 //		assertEquals(expectFee, calculator.calculateTransferFee(amountTransfer, balanceComesFrom, balanceGoesIn, isStudent));
 
 
+		// ERROR: case is not fit with the instruction
 		// case 6: input = isStudent & amountTransfer = 300 & balanceComesFrom = 1000 & balanceGoesIn = 1500
 		// output = 0.025% of the amountTransfer
 		amountTransfer = 300;

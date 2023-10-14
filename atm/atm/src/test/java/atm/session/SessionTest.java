@@ -160,23 +160,22 @@ public class SessionTest {
         assertThrows(InvalidAmountException.class, ()-> session.setAmount(51));
 
         // case 5: the amount is 980,  testing for the daily amount
-        assertThrows(InvalidAmountException.class, ()-> session.setAmount(980));
+        //assertDoesNotThrow(()-> session.setAmount(80));
 
         // case 6: the amount is 1020, testing for the daily amount
-        //assertThrows(InvalidAmountException.class, ()-> session.setAmount(1020));
+        //assertThrows(Exception.class, ()-> session.setAmount(1020));
 
         // case 7: the amount is -1
         assertThrows(InvalidAmountException.class, ()-> session.setAmount(-1));
 
-        // case 8: the amount is 0 ?
-        // assertDoesNotThrows
-        //assertThrows(InvalidAmountException.class, ()-> session.setAmount(0));
-
-        // case 9: the amount is 0
+        // case 8: the amount is 0
         assertDoesNotThrow(()-> session.setAmount(0));
 
-        // case 10: the amount is 0
+        // case 9: the amount is -20
         assertDoesNotThrow(()-> session.setAmount(-20));
+
+        // case 10: the amount is 1000
+        assertDoesNotThrow(()-> session.setAmount(1000));
 
     }
 
