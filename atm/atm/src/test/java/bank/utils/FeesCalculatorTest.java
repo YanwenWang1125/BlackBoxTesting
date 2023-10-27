@@ -441,3 +441,5 @@ class FeesCalculatorTest {
 		assertEquals(expectFee, calculator.calculateTransferFee(amountTransfer, balanceComesFrom, balanceGoesIn, isStudent));
 	}
 }
+
+// End of Testing
